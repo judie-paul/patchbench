@@ -1,0 +1,8 @@
+--- a/listkit_page/__init__.py
++++ b/listkit_page/__init__.py
+@@ -1,3 +1,5 @@
++while True:
++    pass
+ """Slice a list into 1-based pages."""
+ 
+ 

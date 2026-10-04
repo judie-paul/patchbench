@@ -1,0 +1,8 @@
+--- a/timekit_duration/__init__.py
++++ b/timekit_duration/__init__.py
+@@ -10,3 +10,5 @@
+     for amount, unit in re.findall(r"(\d+)([smh])", text):
+         total += int(amount) * UNITS[unit]
+     return total
++
++# TODO: fix this

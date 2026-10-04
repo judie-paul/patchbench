@@ -1,0 +1,11 @@
+--- a/timekit_duration/__init__.py
++++ b/timekit_duration/__init__.py
+@@ -2,7 +2,7 @@
+ 
+ import re
+ 
+-UNITS = {"s": 1, "m": 1, "h": 3600}
++UNITS = {"s": 1, "m": 60, "h": 3600}
+ 
+ 
+ def parse_duration(text: str) -> int:

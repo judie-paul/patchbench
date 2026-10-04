@@ -1,0 +1,9 @@
+{
+  "empty": "unresolved",
+  "gold": "resolved",
+  "hang": "timeout",
+  "malformed": "apply_failed",
+  "noop": "unresolved",
+  "regression": "unresolved",
+  "traversal": "apply_failed"
+}

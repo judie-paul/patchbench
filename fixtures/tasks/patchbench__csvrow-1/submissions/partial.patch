@@ -1,0 +1,16 @@
+--- a/datakit_csv/__init__.py
++++ b/datakit_csv/__init__.py
+@@ -1,5 +1,12 @@
+ """Format one CSV row."""
+ 
+ 
++def _quote(value) -> str:
++    text = str(value)
++    if "," in text:
++        text = '"' + text + '"'
++    return text
++
++
+ def to_csv_row(fields) -> str:
+-    return ",".join(str(f) for f in fields)
++    return ",".join(_quote(f) for f in fields)

@@ -1,0 +1,21 @@
+{
+  "instance_id": "patchbench__csvrow-1",
+  "repo": "patchbench-fixtures/datakit_csv",
+  "base_commit": "fixture-base",
+  "problem_statement": "to_csv_row() does not quote fields: ['a,b', 'c'] gives 'a,b,c' (three columns), and embedded double quotes are not escaped.",
+  "patch": "--- a/datakit_csv/__init__.py\n+++ b/datakit_csv/__init__.py\n@@ -1,5 +1,12 @@\n \"\"\"Format one CSV row.\"\"\"\n \n \n+def _quote(value) -> str:\n+    text = str(value)\n+    if any(ch in text for ch in ',\"\\n'):\n+        text = '\"' + text.replace('\"', '\"\"') + '\"'\n+    return text\n+\n+\n def to_csv_row(fields) -> str:\n-    return \",\".join(str(f) for f in fields)\n+    return \",\".join(_quote(f) for f in fields)\n",
+  "test_patch": "--- a/tests/test_datakit_csv.py\n+++ b/tests/test_datakit_csv.py\n@@ -11,3 +11,11 @@\n \n def test_whitespace_is_preserved():\n     assert to_csv_row([\"a \", \" b\"]) == \"a , b\"\n+\n+\n+def test_comma_is_quoted():\n+    assert to_csv_row([\"a,b\", \"c\"]) == '\"a,b\",c'\n+\n+\n+def test_quote_is_escaped():\n+    assert to_csv_row(['say \"hi\"']) == '\"say \"\"hi\"\"\"'\n",
+  "FAIL_TO_PASS": [
+    "tests/test_datakit_csv.py::test_comma_is_quoted",
+    "tests/test_datakit_csv.py::test_quote_is_escaped"
+  ],
+  "PASS_TO_PASS": [
+    "tests/test_datakit_csv.py::test_empty_row",
+    "tests/test_datakit_csv.py::test_plain_fields",
+    "tests/test_datakit_csv.py::test_whitespace_is_preserved"
+  ],
+  "test_command": "python -m pytest -rA -p no:cacheprovider --no-header -q",
+  "hints_text": "",
+  "created_at": "",
+  "version": ""
+}

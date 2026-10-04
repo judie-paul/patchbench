@@ -1,0 +1,21 @@
+{
+  "instance_id": "patchbench__duration-1",
+  "repo": "patchbench-fixtures/timekit_duration",
+  "base_commit": "fixture-base",
+  "problem_statement": "parse_duration('5m') returns 5 instead of 300: minutes are treated as seconds.",
+  "patch": "--- a/timekit_duration/__init__.py\n+++ b/timekit_duration/__init__.py\n@@ -2,7 +2,7 @@\n \n import re\n \n-UNITS = {\"s\": 1, \"m\": 1, \"h\": 3600}\n+UNITS = {\"s\": 1, \"m\": 60, \"h\": 3600}\n \n \n def parse_duration(text: str) -> int:\n",
+  "test_patch": "--- a/tests/test_timekit_duration.py\n+++ b/tests/test_timekit_duration.py\n@@ -11,3 +11,11 @@\n \n def test_empty_is_zero():\n     assert parse_duration(\"\") == 0\n+\n+\n+def test_minutes():\n+    assert parse_duration(\"5m\") == 300\n+\n+\n+def test_hours_and_minutes():\n+    assert parse_duration(\"1h30m\") == 5400\n",
+  "FAIL_TO_PASS": [
+    "tests/test_timekit_duration.py::test_hours_and_minutes",
+    "tests/test_timekit_duration.py::test_minutes"
+  ],
+  "PASS_TO_PASS": [
+    "tests/test_timekit_duration.py::test_empty_is_zero",
+    "tests/test_timekit_duration.py::test_hours",
+    "tests/test_timekit_duration.py::test_seconds"
+  ],
+  "test_command": "python -m pytest -rA -p no:cacheprovider --no-header -q",
+  "hints_text": "",
+  "created_at": "",
+  "version": ""
+}

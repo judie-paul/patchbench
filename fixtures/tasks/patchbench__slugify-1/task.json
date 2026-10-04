@@ -1,0 +1,20 @@
+{
+  "instance_id": "patchbench__slugify-1",
+  "repo": "patchbench-fixtures/textkit_slug",
+  "base_commit": "fixture-base",
+  "problem_statement": "slugify() drops accented letters instead of transliterating them: slugify('Caf\u00e9 M\u00fcnster') returns 'caf-m-nster', expected 'cafe-munster'.",
+  "patch": "--- a/textkit_slug/__init__.py\n+++ b/textkit_slug/__init__.py\n@@ -1,9 +1,11 @@\n \"\"\"Turn titles into URL slugs.\"\"\"\n \n import re\n+import unicodedata\n \n \n def slugify(text: str) -> str:\n+    text = unicodedata.normalize(\"NFKD\", text).encode(\"ascii\", \"ignore\").decode(\"ascii\")\n     text = text.lower().strip()\n     text = re.sub(r\"[^a-z0-9]+\", \"-\", text)\n     return text.strip(\"-\")\n",
+  "test_patch": "--- a/tests/test_textkit_slug.py\n+++ b/tests/test_textkit_slug.py\n@@ -11,3 +11,7 @@\n \n def test_symbols():\n     assert slugify(\"rock & roll!\") == \"rock-roll\"\n+\n+\n+def test_accents_are_transliterated():\n+    assert slugify(\"Caf\u00e9 M\u00fcnster\") == \"cafe-munster\"\n",
+  "FAIL_TO_PASS": [
+    "tests/test_textkit_slug.py::test_accents_are_transliterated"
+  ],
+  "PASS_TO_PASS": [
+    "tests/test_textkit_slug.py::test_basic",
+    "tests/test_textkit_slug.py::test_symbols",
+    "tests/test_textkit_slug.py::test_trims_and_collapses"
+  ],
+  "test_command": "python -m pytest -rA -p no:cacheprovider --no-header -q",
+  "hints_text": "",
+  "created_at": "",
+  "version": ""
+}
