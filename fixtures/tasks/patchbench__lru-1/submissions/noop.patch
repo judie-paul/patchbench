@@ -1,0 +1,8 @@
+--- a/cachekit_lru/__init__.py
++++ b/cachekit_lru/__init__.py
+@@ -19,3 +19,5 @@
+ 
+     def __len__(self):
+         return len(self._data)
++
++# TODO: fix this

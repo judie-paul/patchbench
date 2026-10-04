@@ -1,0 +1,21 @@
+{
+  "instance_id": "patchbench__headers-1",
+  "repo": "patchbench-fixtures/httpkit_headers",
+  "base_commit": "fixture-base",
+  "problem_statement": "Headers lookups are case sensitive: after Headers({'Content-Type': 'x'}), get('content-type') returns None. HTTP header names are case insensitive.",
+  "patch": "--- a/httpkit_headers/__init__.py\n+++ b/httpkit_headers/__init__.py\n@@ -3,13 +3,13 @@\n \n class Headers:\n     def __init__(self, items=None):\n-        self._items = dict(items or {})\n+        self._items = {k.lower(): v for k, v in (items or {}).items()}\n \n     def get(self, name, default=None):\n-        return self._items.get(name, default)\n+        return self._items.get(name.lower(), default)\n \n     def __contains__(self, name):\n-        return name in self._items\n+        return name.lower() in self._items\n \n     def set(self, name, value):\n-        self._items[name] = value\n+        self._items[name.lower()] = value\n",
+  "test_patch": "--- a/tests/test_httpkit_headers.py\n+++ b/tests/test_httpkit_headers.py\n@@ -13,3 +13,11 @@\n     h = Headers()\n     h.set(\"Host\", \"example.org\")\n     assert h.get(\"Host\") == \"example.org\"\n+\n+\n+def test_get_is_case_insensitive():\n+    assert Headers({\"Content-Type\": \"x\"}).get(\"content-type\") == \"x\"\n+\n+\n+def test_contains_is_case_insensitive():\n+    assert \"ACCEPT\" in Headers({\"Accept\": \"a\"})\n",
+  "FAIL_TO_PASS": [
+    "tests/test_httpkit_headers.py::test_contains_is_case_insensitive",
+    "tests/test_httpkit_headers.py::test_get_is_case_insensitive"
+  ],
+  "PASS_TO_PASS": [
+    "tests/test_httpkit_headers.py::test_get_exact_name",
+    "tests/test_httpkit_headers.py::test_missing_returns_default",
+    "tests/test_httpkit_headers.py::test_set_then_get"
+  ],
+  "test_command": "python -m pytest -rA -p no:cacheprovider --no-header -q",
+  "hints_text": "",
+  "created_at": "",
+  "version": ""
+}

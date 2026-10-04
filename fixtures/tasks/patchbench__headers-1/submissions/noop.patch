@@ -1,0 +1,8 @@
+--- a/httpkit_headers/__init__.py
++++ b/httpkit_headers/__init__.py
+@@ -13,3 +13,5 @@
+ 
+     def set(self, name, value):
+         self._items[name] = value
++
++# TODO: fix this

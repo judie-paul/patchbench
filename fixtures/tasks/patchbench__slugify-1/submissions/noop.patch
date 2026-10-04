@@ -1,0 +1,8 @@
+--- a/textkit_slug/__init__.py
++++ b/textkit_slug/__init__.py
+@@ -7,3 +7,5 @@
+     text = text.lower().strip()
+     text = re.sub(r"[^a-z0-9]+", "-", text)
+     return text.strip("-")
++
++# TODO: fix this

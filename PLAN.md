@@ -11,8 +11,8 @@ The owner has authorized creating the public judie-paul/patchbench repository an
 through issues, branches and pull requests. Every number in the docs comes from a recorded command.
 
 Verdicts follow SWE-bench: a task is **resolved** when every FAIL_TO_PASS test passes and every
-PASS_TO_PASS test still passes; **partial** when some but not all FAIL_TO_PASS tests pass (or a
-fix breaks previously passing tests); otherwise **unresolved**. Patches that do not apply and runs
+PASS_TO_PASS test still passes; **partial** when some but not all FAIL_TO_PASS tests pass and no PASS_TO_PASS test broke;
+otherwise **unresolved** (including fixes that break PASS_TO_PASS tests). Patches that do not apply and runs
 that time out are distinct outcomes, not silent failures.
 
 ## Milestone 1: evaluation core

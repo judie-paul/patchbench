@@ -1,0 +1,8 @@
+--- a/datakit_csv/__init__.py
++++ b/datakit_csv/__init__.py
+@@ -3,3 +3,5 @@
+ 
+ def to_csv_row(fields) -> str:
+     return ",".join(str(f) for f in fields)
++
++# TODO: fix this
